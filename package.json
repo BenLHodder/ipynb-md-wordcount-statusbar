@@ -17,11 +17,26 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+        "type": "object",
+        "title": "ipynb Markdown Word Count",
+        "properties": {
+            "ipynb-md-wordcount-statusbar.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable or disable the Markdown Word Count status bar extension."
+            }
+        }
+    },
     "commands": [
-      {
-        "command": "ipynb-md-wordcount-statusbar.helloWorld",
-        "title": "Hello World"
-      }
+        {
+            "command": "ipynb-md-wordcount-statusbar.enable",
+            "title": "ipynb-md-wordcount-statusbar: Enable Markdown Word Count"
+        },
+        {
+            "command": "ipynb-md-wordcount-statusbar.disable",
+            "title": "ipynb-md-wordcount-statusbar: Disable Markdown Word Count"
+        }
     ]
   },
   "scripts": {

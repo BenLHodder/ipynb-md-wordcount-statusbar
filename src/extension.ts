@@ -1,19 +1,25 @@
 import * as vscode from 'vscode';
 
 let statusBarItem: vscode.StatusBarItem;
+let enabled = true;
 
 export function activate(context: vscode.ExtensionContext) {
-   
-    // Create and show status bar item
+    enabled = context.globalState.get('ipynbMdWordCountEnabled', true);
+
+    // Create status bar item
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
     context.subscriptions.push(statusBarItem);
 
-    // Update status bar text
     const updateWordCount = () => {
+        if (!enabled) {
+            statusBarItem.hide();
+            return;
+        }
+
         const notebookEditor = vscode.window.activeNotebookEditor;
         const textEditor = vscode.window.activeTextEditor;
 
-        // If an .ipynb notebook is open
+        // If an .ipynb file is open
         if (notebookEditor) {
             const mdCells = notebookEditor.notebook.getCells().filter(cell =>
                 cell.kind === vscode.NotebookCellKind.Markup
@@ -41,19 +47,49 @@ export function activate(context: vscode.ExtensionContext) {
         statusBarItem.hide();
     };
 
-
-    // Event listeners for notebook/editor changes
+    // Commands
     context.subscriptions.push(
-        vscode.window.onDidChangeActiveNotebookEditor(updateWordCount),
-        vscode.workspace.onDidChangeNotebookDocument(event => {
-            const active = vscode.window.activeNotebookEditor;
-            if (active && event.notebook === active.notebook) {updateWordCount();}
+        vscode.commands.registerCommand('ipynb-md-wordcount-statusbar.enable', () => {
+            enabled = true;
+            context.globalState.update('ipynbMdWordCountEnabled', true);
+            updateWordCount();
+            vscode.window.showInformationMessage('Markdown Word Count Enabled');
         }),
+
+        vscode.commands.registerCommand('ipynb-md-wordcount-statusbar.disable', () => {
+            enabled = false;
+            context.globalState.update('ipynbMdWordCountEnabled', false);
+            statusBarItem.hide();
+            vscode.window.showInformationMessage('Markdown Word Count Disabled');
+        }),
+
+        vscode.workspace.onDidChangeConfiguration(event => {
+            if (event.affectsConfiguration('ipynb-md-wordcount-statusbar.enabled')) {
+                const configValue = vscode.workspace
+                    .getConfiguration()
+                    .get<boolean>('ipynb-md-wordcount-statusbar.enabled', true);
+
+                enabled = configValue;
+                context.globalState.update('ipynbMdWordCountEnabled', configValue);
+
+                if (enabled) {
+                    updateWordCount();
+                } else {
+                    statusBarItem.hide();
+                }
+
+                vscode.window.showInformationMessage(`Markdown Word Count ${enabled ? 'Enabled' : 'Disabled'} via Settings`);
+            }
+        }),
+
+        // Notebook or markdown updates
+        vscode.window.onDidChangeActiveNotebookEditor(updateWordCount),
+        vscode.window.onDidChangeActiveTextEditor(updateWordCount),
+        vscode.workspace.onDidChangeNotebookDocument(updateWordCount),
         vscode.workspace.onDidChangeTextDocument(event => {
             const notebookEditor = vscode.window.activeNotebookEditor;
             const textEditor = vscode.window.activeTextEditor;
 
-            // Update if the change affects a markdown notebook cell
             if (
                 notebookEditor &&
                 notebookEditor.notebook.getCells().some(cell => cell.document.uri.toString() === event.document.uri.toString())
@@ -62,7 +98,6 @@ export function activate(context: vscode.ExtensionContext) {
                 return;
             }
 
-            // Update if the change affects the current markdown text file
             if (
                 textEditor &&
                 textEditor.document.uri.toString() === event.document.uri.toString() &&
@@ -71,13 +106,13 @@ export function activate(context: vscode.ExtensionContext) {
                 updateWordCount();
                 return;
             }
-        }),
-
+        })
     );
 
     // Initial count
     updateWordCount();
 }
+
 
 export function deactivate() {
     if (statusBarItem) {

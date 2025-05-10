@@ -1,71 +1,69 @@
-# ipynb-md-wordcount-statusbar README
+# ipynb-md-wordcount-statusbar
 
-This is the README for your extension "ipynb-md-wordcount-statusbar". After writing up a brief description, we recommend including the following sections.
-
-## Features
-
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+**ipynb-md-wordcount-statusbar** is a lightweight Visual Studio Code extension that displays the live word count of Markdown content in both `.md` files and Jupyter Notebooks (`.ipynb`). It updates in real time and integrates seamlessly into the VS Code status bar.
 
 ---
 
-## Following extension guidelines
+## ✨ Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+- 📄 Displays real-time word count for **Markdown (`.md`)** files.
+- 📓 Displays real-time word count for **Jupyter Notebook (`.ipynb`)** Markdown cells.
+- 🔄 Automatically updates as you type or edit your documents.
+- 👻 Status bar hides itself when no supported file is active.
+- ⚙️ Can be toggled on/off via command palette or settings.
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+---
 
-## Working with Markdown
+## ⚙️ Extension Settings & Commands
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+You can control the extension using the following:
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+### 🧩 Commands (Command Palette)
 
-## For more information
+> Open Command Palette with `Cmd+Shift+P` (macOS) or `Ctrl+Shift+P` (Windows/Linux)
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- **Enable Markdown Word Count**  
+  `> ipynb-md-wordcount-statusbar: Enable Markdown Word Count`
 
-**Enjoy!**
+- **Disable Markdown Word Count**  
+  `> ipynb-md-wordcount-statusbar: Disable Markdown Word Count`
+
+### 🛠 User Settings
+
+Alternatively, manage it via **VS Code Settings**:
+
+- Navigate to: `File > Preferences > Settings`
+- Search: `ipynb-md-wordcount-statusbar.enabled`
+- Toggle the checkbox to enable/disable the status bar word count.
+
+---
+
+## 📝 Release Notes
+
+### 1.0.0
+
+- Initial release of `ipynb-md-wordcount-statusbar`
+- Word count support for `.md` and `.ipynb` files
+- Live updates and toggleable functionality
+
+---
+
+## 💡 Tips
+
+- Works great alongside the official **Jupyter** and **Markdown** extensions.
+- Lightweight with zero external dependencies.
+
+---
+
+## 📢 Feedback & Issues
+
+If you encounter bugs or have feature requests, please open an issue on [GitHub](https://github.com/BenLHodder/ipynb-md-wordcount-statusbar/issues).
+
+---
+
+## 🧪 Demo (Coming Soon)
+
+
+---
+
+**Enjoy using ipynb-md-wordcount-statusbar!**
